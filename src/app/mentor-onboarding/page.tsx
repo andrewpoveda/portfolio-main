@@ -250,14 +250,19 @@ export default function MentorOnboardingPage() {
       setSection((s) => s + 1);
       window.scrollTo(0, 0);
     } else {
-      try {
+        try {
+        const formDataToSend = new FormData();
+        Object.entries(form).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach((v) => formDataToSend.append(key, String(v)));
+          } else {
+            formDataToSend.append(key, String(value));
+          }
+        });
+
         const res = await fetch("https://tally.so/forms/ODkP0Y", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify(form),
+          body: formDataToSend,
         });
 
         if (res.ok) {
