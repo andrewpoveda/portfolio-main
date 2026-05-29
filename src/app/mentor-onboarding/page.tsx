@@ -251,11 +251,11 @@ export default function MentorOnboardingPage() {
       window.scrollTo(0, 0);
     } else {
       try {
-        const res = await fetch("https://api.tally.so/forms/ODkP0Y/submissions", {
+        const res = await fetch("https://tally.so/forms/ODkP0Y", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer tly-gZrLlVcfBwcjB4sxegbwECp3yWwGQmu3",
+            "Authorization": `Bearer ${apiKey}`,
           },
           body: JSON.stringify(form),
         });
