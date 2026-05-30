@@ -250,23 +250,46 @@ export default function MentorOnboardingPage() {
       setSection((s) => s + 1);
       window.scrollTo(0, 0);
     } else {
-        try {
+      try {
         console.log("FORM CONTENTS:", form);
-        const { supabase } = await import("@/lib/supabase");
 
-        const { error } = await supabase
-          .from("mentors")
-          .insert([form]);
+        const response = await fetch('/api/mentor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            first_name: form.firstName,
+            last_name: form.lastName,
+            credentials: form.credentials,
+            current_role: form.role,
+            institution: form.institution,
+            linkedin_url: form.linkedin,
+            episode_url: form.episode,
+            bio: form.bio,
+            identity: form.identity,
+            current_stage: form.stage,
+            specialty: form.specialties,
+            can_help_with: form.helpWith,
+            mentee_capacity: form.capacity,
+            contact_method: form.contactMethods,
+            scheduling_url: form.schedulingLink,
+            open_to_podcast: form.consent2,
+            email: form.email,
+            notes: form.notes,
+          }),
+        })
 
-        if (error) {
-          console.error(error);
-          alert("Something went wrong, please try again.");
-        } else {
-          setSubmitted(true);
+        const data = await response.json()
+
+        if (!response.ok) {
+          console.error('Mentor API error:', data?.error || data)
+          alert('Something went wrong, please try again.')
+          return
         }
+
+        setSubmitted(true)
       } catch (err) {
-        console.error(err);
-        alert("Something went wrong, please try again.");
+        console.error(err)
+        alert('Something went wrong, please try again.')
       }
     }
   };

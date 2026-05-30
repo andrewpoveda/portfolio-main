@@ -49,11 +49,7 @@ export default function MentorCard({ mentor }: { mentor: Mentor }) {
 
       <a
         onClick={() => track('mentor_click', { name: mentor.name })}
-        href={`https://docs.google.com/forms/d/e/1FAIpQLSdcoPWXIt_UxQPOHJ4OHe9s9Gfxf6qTMtPaIPpiJGmOTqahjg/viewform?usp=pp_url&entry.478643649=${encodeURIComponent(
-          mentor.name
-        )}`}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={`/mentee-onboarding?mentor=${encodeURIComponent(mentor.name)}`}
         className="mt-4 inline-block px-3 py-2 text-sm rounded bg-[var(--global-theme-color)] text-white hover:opacity-90"
         style={{ color: '#ffffff' }}
       >
