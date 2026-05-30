@@ -245,12 +245,13 @@ export default function MentorOnboardingPage() {
   };
 
   const handleNext = async () => {
-    if (!validate(section)) return;
+    // if (!validate(section)) return;
     if (section < 3) {
       setSection((s) => s + 1);
       window.scrollTo(0, 0);
     } else {
         try {
+        console.log("FORM CONTENTS:", form);
         const formDataToSend = new FormData();
         Object.entries(form).forEach(([key, value]) => {
           if (Array.isArray(value)) {
