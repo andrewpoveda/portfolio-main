@@ -252,31 +252,21 @@ export default function MentorOnboardingPage() {
     } else {
         try {
         console.log("FORM CONTENTS:", form);
-        const formDataToSend = new FormData();
-        Object.entries(form).forEach(([key, value]) => {
-          if (Array.isArray(value)) {
-            value.forEach((v) => formDataToSend.append(key, String(v)));
-          } else {
-            formDataToSend.append(key, String(value));
-          }
-        });
+        const { supabase } = await import("@/lib/supabase");
 
-        for (let pair of formDataToSend.entries()) {
-          console.log(pair[0] + ": " + pair[1]);
-        }
+        const { error } = await supabase
+          .from("mentors")
+          .insert([form]);
 
-        const res = await fetch("https://tally.so/forms/ODkP0Y", {
-          method: "POST",
-          body: formDataToSend,
-        });
-
-        if (res.ok) {
-          setSubmitted(true);
+        if (error) {
+          console.error(error);
+          alert("Something went wrong, please try again.");
         } else {
-          alert("Submission failed — please try again.");
+          setSubmitted(true);
         }
-      } catch {
-        alert("Network error — please try again.");
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong, please try again.");
       }
     }
   };
