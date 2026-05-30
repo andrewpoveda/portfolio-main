@@ -261,6 +261,10 @@ export default function MentorOnboardingPage() {
           }
         });
 
+        for (let pair of formDataToSend.entries()) {
+          console.log(pair[0] + ": " + pair[1]);
+        }
+
         const res = await fetch("https://tally.so/forms/ODkP0Y", {
           method: "POST",
           body: formDataToSend,
