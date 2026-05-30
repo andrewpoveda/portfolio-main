@@ -13,6 +13,7 @@ type MenteeOnboardingFormData = {
   identity: string[]
   interests: string[]
   preferred_specialty: string
+  other_specialty: string        // ⭐ ADD THIS RIGHT HERE
   preferred_identity: string
   availability: string
   linkedin_url: string
@@ -56,14 +57,16 @@ export default function MenteeOnboardingForm() {
   current_stage: '',
   requested_mentor: mentorFromUrl,
   identity: [],
-  interests: [],          // ← specialties
-  help_with: [],          // ← add this
+  interests: [],          // specialties
+  help_with: [],          // help needed
   preferred_specialty: '',
+  other_specialty: '',    // ⭐ ADD THIS
   preferred_identity: '',
   availability: '',
   linkedin_url: '',
   notes: '',
 })
+
 
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -311,6 +314,49 @@ export default function MenteeOnboardingForm() {
 <hr style={{ border: 'none', borderTop: '1px solid #1e2330', marginBottom: '2.5rem' }} />
 
         <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem' }}>Preferred specialty <span style={{ color: '#64748b', fontWeight: 400, fontSize: '0.9rem' }}>(optional)</span></h2>
+        <select
+  value={form.preferred_specialty}
+  onChange={(e) =>
+    setForm({ ...form, preferred_specialty: e.target.value })
+  }
+  style={{
+    width: '100%',
+    padding: '0.75rem',
+    borderRadius: '0.5rem',
+    backgroundColor: '#0f172a',
+    border: '1px solid #1e293b',
+    color: 'white',
+    marginBottom: '1rem',
+  }}
+>
+  <option value="">Select a specialty</option>
+  {SPECIALTIES.map((s) => (
+    <option key={s} value={s}>
+      {s}
+    </option>
+  ))}
+</select>
+
+{form.preferred_specialty === "Other" && (
+  <input
+    type="text"
+    placeholder="Please specify"
+    value={form.other_specialty || ""}
+    onChange={(e) =>
+      setForm({ ...form, other_specialty: e.target.value })
+    }
+    style={{
+      width: '100%',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      backgroundColor: '#0f172a',
+      border: '1px solid #1e293b',
+      color: 'white',
+      marginBottom: '1rem',
+    }}
+  />
+)}
+
         <p style={{ color: '#94a3b8', fontSize: '0.875rem', marginBottom: '1.25rem' }}>Any specialties you're interested in exploring?</p>
 
         <div style={checkGridStyle}>
